@@ -1,0 +1,47 @@
+Script started on 2026-10-02 15:37:35+00:00 [COMMAND="bash /tmp/log-master2.sh" <not executed on terminal>]
+Otus2022
++ echo '===== SHOW TABLES FROM bet (master) ====='
+===== SHOW TABLES FROM bet (master) =====
++ mysql -e 'SHOW TABLES FROM bet;'
++------------------+
+| Tables_in_bet    |
++------------------+
+| bookmaker        |
+| competition      |
+| events_on_demand |
+| market           |
+| odds             |
+| outcome          |
+| v_same_event     |
++------------------+
++ echo '===== replication params ====='
+===== replication params =====
++ mysql -N -e 'SELECT @@server_id, @@gtid_mode, @@binlog_format;'
++------+------+------+
+|    1 |   ON |  ROW |
++------+------+------+
++ echo '===== current bookmaker rows (master) ====='
+===== current bookmaker rows (master) =====
++ mysql -e 'SELECT id, bookmaker_name FROM bet.bookmaker;'
++----+-----------------+
+| id | bookmaker_name  |
++----+-----------------+
+|  4 | betway          |
+|  5 | bwin            |
+|  6 | ladbrokes       |
+|  7 | OddsPortal Live |
+|  3 | unibet          |
++----+-----------------+
++ echo '===== UPDATE row on master ====='
+===== UPDATE row on master =====
++ mysql -e 'USE bet; UPDATE bookmaker SET bookmaker_name='\''OddsPortal Exchange'\'' WHERE id=7;'
++ echo '===== INSERT row on master ====='
+===== INSERT row on master =====
++ mysql -e 'USE bet; INSERT INTO bookmaker (bookmaker_name) VALUES ('\''Marathonbet'\'') ON DUPLICATE KEY UPDATE bookmaker_name='\''Marathonbet'\'';'
++ mysql -N -e 'SELECT id, bookmaker_name FROM bet.bookmaker WHERE id>=7;'
++---+---------------------+
+| 7 | OddsPortal Exchange |
+| 8 |         Marathonbet |
++---+---------------------+
+
+Script done on 2026-10-02 15:37:37+00:00 [COMMAND_EXIT_CODE="0"]

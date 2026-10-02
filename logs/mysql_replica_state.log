@@ -1,0 +1,37 @@
+Script started on 2026-10-02 15:38:28+00:00 [COMMAND="bash /tmp/log-replica2.sh" <not executed on terminal>]
+Otus2022
++ mysql -e 'SHOW TABLES FROM bet;'
++---------------+
+| Tables_in_bet |
++---------------+
+| bookmaker     |
+| competition   |
+| market        |
+| odds          |
+| outcome       |
++---------------+
++ mysql -N -e 'SELECT @@server_id, @@gtid_mode, @@read_only;'
++------+------+------+
+|    2 |   ON |    1 |
++------+------+------+
++ mysql -e 'SHOW REPLICA STATUS\G'
++ grep -E 'Replica_(IO|SQL)_Running|Seconds_Behind|Auto_Position|Source_Host'
+                  Source_Host: 192.168.1.190
+           Replica_IO_Running: Yes
+          Replica_SQL_Running: Yes
+        Seconds_Behind_Source: 0
+    Replica_SQL_Running_State: Replica has read all relay log; waiting for more updates
+                Auto_Position: 1
++ mysql -e 'SELECT id, bookmaker_name FROM bet.bookmaker;'
++----+---------------------+
+| id | bookmaker_name      |
++----+---------------------+
+|  4 | betway              |
+|  5 | bwin                |
+|  6 | ladbrokes           |
+|  8 | Marathonbet         |
+|  7 | OddsPortal Exchange |
+|  3 | unibet              |
++----+---------------------+
+
+Script done on 2026-10-02 15:38:30+00:00 [COMMAND_EXIT_CODE="0"]

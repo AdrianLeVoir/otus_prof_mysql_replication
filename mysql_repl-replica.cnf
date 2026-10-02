@@ -1,0 +1,13 @@
+[mysqld]
+server-id = 2
+log-bin = mysql-bin
+relay-log = relay-bin
+read-only = ON
+gtid-mode = ON
+enforce-gtid-consistency
+log-replica-updates
+replicate-wild-do-table = bet.bookmaker
+replicate-wild-do-table = bet.competition
+replicate-wild-do-table = bet.market
+replicate-wild-do-table = bet.odds
+replicate-wild-do-table = bet.outcome

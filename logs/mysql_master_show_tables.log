@@ -1,0 +1,34 @@
+Script started on 2026-10-02 15:28:49+00:00 [COMMAND="bash /tmp/log-master.sh" <not executed on terminal>]
+Otus2022
++ mysql -e 'SHOW TABLES FROM bet;'
++------------------+
+| Tables_in_bet    |
++------------------+
+| bookmaker        |
+| competition      |
+| events_on_demand |
+| market           |
+| odds             |
+| outcome          |
+| v_same_event     |
++------------------+
++ mysql -N -e 'SELECT @@server_id, @@gtid_mode, @@binlog_format;'
++------+------+------+
+|    1 |   ON |  ROW |
++------+------+------+
++ mysql -e 'USE bet; INSERT INTO bookmaker (bookmaker_name) VALUES ('\''OddsPortal'\'') ON DUPLICATE KEY UPDATE bookmaker_name='\''OddsPortal'\'';'
++ mysql -N -e 'SELECT id, bookmaker_name FROM bet.bookmaker;'
++---+------------+
+| 4 |     betway |
+| 5 |       bwin |
+| 6 |  ladbrokes |
+| 7 | OddsPortal |
+| 3 |     unibet |
++---+------------+
++ mysql -e 'USE bet; UPDATE bookmaker SET bookmaker_name='\''OddsPortal Live'\'' WHERE bookmaker_name='\''OddsPortal'\'';'
++ mysql -N -e 'SELECT id, bookmaker_name FROM bet.bookmaker WHERE bookmaker_name LIKE '\''OddsPortal%'\'';'
++---+-----------------+
+| 7 | OddsPortal Live |
++---+-----------------+
+
+Script done on 2026-10-02 15:28:51+00:00 [COMMAND_EXIT_CODE="0"]
